@@ -1,8 +1,28 @@
 FROM node:12.18.3-alpine
 
-ENV APP_HOME /app
-RUN mkdir -p $APP_HOME
-WORKDIR $APP_HOME
+ARG WORKDIR
+ARG CONTAINER_PORT
 
-RUN apk update && npm install && \
+ENV HOME=/${WORKDIR} \
+    LANG=C.UTF-8 \
+    TZ=Asia/Tokyo \
+    HOST=0.0.0.0
+
+WORKDIR ${HOME}
+
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+        libtool \
+        automake \
+        autoconf \
+        g++ \
+        libc6-compat \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        make \
+        nasm && \
+    yarn install &&\
     rm -rf /var/cache/apk/*
+
+EXPOSE ${CONTAINER_PORT}
