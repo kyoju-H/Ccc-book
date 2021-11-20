@@ -1,4 +1,4 @@
-FROM ruby:2.7.1
+FROM ruby:2.7.1-alpine
 
 ARG WORKDIR
 ARG CONTAINER_PORT
